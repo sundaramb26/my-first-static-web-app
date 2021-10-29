@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <title>Vanilla JavaScript App</title>
+  <style>
+    div {text-align: center;}
+  </style>
+</head>
+
+<body>
+  <main>
+    <h1>MY STATIC WEBAPP</h1>
+    <div>
+      <h2>!!! It is a Vanilla JavaScript App with my cute little puppy !!!</h2>
+      <img src="puppy1.jpg" alt="Cute puppy 1" width="500" height="600">
+    </div>
+    <form id="form" action="/api/processForm" method="POST">
+      <div>
+
+      <div>
+            <h2>If you like, Enter your name and click below</h2>
+            <label for="fname">First Name</label><br>
+            <input type="text" id="fname" name="fname"><br><br>
+            <!-- <input type="submit" value="Submit"> -->
+            <button type="submit" class="myButton">Like</button>
+                <p>Loading content from the API: <b id="name">...</b></p>
+</form>
+      </div>
+    </form>
+  </main>
+   <script>
+    (async function() {
+        const { text } = await( await fetch(`/api/message`)).json();
+        document.querySelector('#name').textContent = text;
+    }())
+    </script>
+</body>
+
+
+
+<script>
+      document.addEventListener("submit", function (event) {
+        event.preventDefault();
+        const form = event.target;
+        fetch(form.action, {
+          method: form.method,
+          body: new FormData(form),
+        })
+          .then(function (response) {
+            if (response.ok) {
+              form.reset();
+            }
+          })
+          .catch(function (error) {
+            console.warn(error);
+          });
+      });
+    </script>
+
+</html>
